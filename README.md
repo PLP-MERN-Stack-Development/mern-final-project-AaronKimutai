@@ -141,6 +141,7 @@ The project fulfills all core assignment tasks:
 
 ### Admin Panel
 ![Admin Panel](client/src/assets/Screenshot4.png)
+
 ### **Source Code**
 **Status:** Complete  
 The full client and server implementations are located within the `client/` and `server/` directories of this repository.

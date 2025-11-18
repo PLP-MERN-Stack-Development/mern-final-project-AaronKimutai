@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    
+    # 1. Start MongoDB Service
     services:
       mongodb:
         image: mongo:latest
@@ -37,13 +37,23 @@ jobs:
       run: npm install
       working-directory: ./server
       
-    - name: Run health check and startup test
+    # 2. Setup Environment Variables for Testing
+    - name: Configure Test Environment
       run: |
-        # Use secrets passed from the GitHub settings
         echo "MONGO_URI=mongodb://localhost:27017/testdb" >> .env
         echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
-        
-        # Start the server in the background and wait 5 seconds to connect
-        node server.js &
-        sleep 5 
+        # Set a test-specific PORT if needed, or rely on a standard port
       working-directory: ./server
+      
+    # 3. Run Lint and Code Quality Check 
+    - name: Run Backend Lint
+      run: npm run lint 
+      working-directory: ./server
+      
+    # 4. Execute Backend Tests 
+    - name: Run Integration and Unit Tests
+      run: npm test
+      working-directory: ./server
+      env:
+        MONGO_URI: mongodb://localhost:27017/testdb 
+        CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}

@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../server'); 
 const mongoose = require('mongoose');
-
+const { expect } = require('@jest/globals'); 
 
 const MOCK_TOKEN = 'mock-clerk-jwt-token-for-testing-12345'; 
 

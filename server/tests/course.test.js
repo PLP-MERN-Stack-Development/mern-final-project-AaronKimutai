@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../server');
 const mongoose = require('mongoose');
 const Course = mongoose.model('Course'); 
+const { expect } = require('@jest/globals'); 
 
 // Mock tokens
 const ADMIN_TOKEN = 'mock-admin-jwt-token-for-testing'; 

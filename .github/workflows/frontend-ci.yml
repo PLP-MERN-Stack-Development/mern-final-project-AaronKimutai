@@ -11,49 +11,48 @@ on:
       - main
     paths:
       - 'client/**'
-  
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: client
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        
-        node-version: 18.x
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
 
-    #  Dependency Installation 
-    - name: Install client dependencies
-      run: npm install
-      working-directory: ./client
+      - name: Install dependencies
+        run: npm ci
 
-    # Testing and Code Quality 
-    - name: Run Frontend Unit Tests
-      run: npm test
-      working-directory: ./client
-      continue-on-error: true 
+      # LINTING 
+      - name: Run ESLint (Flat Config compatible)
+        run: |
+          npx eslint . --max-warnings=0
 
-    - name: Run Lint and Code Quality Check
-      run: npx eslint ./src --fix --quiet
-      working-directory: ./client
-      
-    # Production Build 
-    - name: Build Production Assets
-      run: npm run build
-      working-directory: ./client
-      env:
-        VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
-        VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        
-    - name: Upload Build Artifact (For Vercel or manual deployment)
-      uses: actions/upload-artifact@v4
-      with:
-        name: frontend-build-artifact
-        path: client/dist
-        
+      #  TESTS 
+      - name: Run Frontend Tests
+        run: npm test
+        continue-on-error: true
+
+      # BUILD 
+      - name: Build Production
+        env:
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: npm run build
+
+      # ARTIFACT UPLOAD 
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build-artifact
+          path: dist

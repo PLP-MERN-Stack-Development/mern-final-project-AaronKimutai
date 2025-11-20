@@ -1,20 +1,14 @@
 /** @type {import('jest').Config} */
 const config = {
-    testMatch: [
-        '<rootDir>/tests/*.test.js'
-    ],
-    
-    
-    globals: true,
-    
-    
+    testMatch: ['<rootDir>/tests/*.test.js'],
+
+
+
     testEnvironment: 'node',
-    
-    
+
     modulePathIgnorePatterns: ['<rootDir>/node_modules'],
-    
-    
-    bail: true, 
+
+    bail: true,
 };
 
 module.exports = config;

@@ -13,10 +13,13 @@ export default [
         },
         rules: {
             ...js.configs.recommended.rules,
-            "no-console": "off",
+            
+            
+            "indent": "off",          
+            
+            "no-console": "off",          
             "no-unused-vars": ["error", { "argsIgnorePattern": "next" }], 
-            "indent": ["error", 4, { "SwitchCase": 1 }], 
-            "semi": ["error", "always"]
+            "semi": ["error", "always"] 
         }
     }
 ];

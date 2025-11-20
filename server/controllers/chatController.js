@@ -37,7 +37,7 @@ const createChat = async (req, res) => {
         return res.status(400).json({ message: "User message is required." });
     }
     
-    // Generate bot response
+
     const botResponse = generateBotResponse(userMessage);
 
   try {

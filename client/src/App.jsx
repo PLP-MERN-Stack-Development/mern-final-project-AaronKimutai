@@ -19,10 +19,10 @@ import Footer from "./components/Footer.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 
-function AdminProtectedRoute({ children }) {
-  const {isLoaded, isSignedIn: clerkSignedIn}=useClerkAuth();
-  const {authLoading, isAdmin}=useAuthHook();
-  if(!isLoaded || authLoading) {
+function AdminProtectedRoute({children }) {
+  const{isLoaded, isSignedIn: clerkSignedIn}=useClerkAuth();
+  const{authLoading, isAdmin}=useAuthHook();
+  if(!isLoaded||authLoading){
     return<div className="p-8 text-center text-xl text-gray-500">Authorizing...</div>;
  }
 

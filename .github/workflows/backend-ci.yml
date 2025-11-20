@@ -42,12 +42,11 @@ jobs:
       run: |
         echo "MONGO_URI=mongodb://localhost:27017/testdb" >> .env
         echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
-        # Set a test-specific PORT if needed, or rely on a standard port
       working-directory: ./server
       
     # 3. Run Lint and Code Quality Check 
     - name: Run Backend Lint
-      run: npm run lint 
+      run: npx eslint . --config eslint.config.mjs 
       working-directory: ./server
       
     # 4. Execute Backend Tests 
@@ -57,3 +56,4 @@ jobs:
       env:
         MONGO_URI: mongodb://localhost:27017/testdb 
         CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+        

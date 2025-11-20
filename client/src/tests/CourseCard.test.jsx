@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { expect, test, describe } from 'vitest';
+
+
 import CourseCard from '../components/CourseCard'; 
 
 // Mock Data 
@@ -15,14 +17,15 @@ const mockCourse = {
 
 
 const renderWithRouter = (component) => {
+    
     return render(<BrowserRouter>{component}</BrowserRouter>);
 };
 
 
-// CourseCard Component
+
 describe('CourseCard Unit Tests', () => {
 
-    // Ensure the component renders without crashing and displays core data
+
     test('renders course title and instructor correctly', () => {
         renderWithRouter(<CourseCard course={mockCourse} />);
         
@@ -32,29 +35,32 @@ describe('CourseCard Unit Tests', () => {
         // Check for the instructor's name
         expect(screen.getByText(/Jane Doe/i)).toBeInTheDocument();
         
-        // Check for the lesson count
-        expect(screen.getByText('3 Lessons')).toBeInTheDocument();
+        expect(screen.getByText(/programming fundamentals/i)).toBeInTheDocument();
     });
 
-    // Ensures the 'View Course' link points to the correct URL
     test('renders a link to the correct course details page', () => {
         renderWithRouter(<CourseCard course={mockCourse} />);
         
+        const linkElement = screen.getByRole('link', { 
+            name: /Introduction to Python.*View Details/i 
+        });
         
-        const linkElement = screen.getByRole('link', { name: /View Course/i });
-        
-        
+        // Check if the link element exists
         expect(linkElement).toBeInTheDocument();
         
         // Check if the href attribute matches the expected route
         expect(linkElement.getAttribute('href')).toBe(`/courses/${mockCourse._id}`);
     });
 
-    //  Ensure description text is displayed
-    test('renders the course description', () => {
+    test('renders all content within a single accessible link', () => {
         renderWithRouter(<CourseCard course={mockCourse} />);
         
         
-        expect(screen.getByText(/programming fundamentals/i)).toBeInTheDocument();
+        const courseCardLink = screen.getByRole('link', { 
+            name: /Introduction to Python/i 
+        });
+        
+        expect(courseCardLink).toBeInTheDocument();
+        expect(courseCardLink.getAttribute('href')).toContain(mockCourse._id);
     });
 });

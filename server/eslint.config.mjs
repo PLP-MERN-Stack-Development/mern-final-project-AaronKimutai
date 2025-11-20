@@ -7,24 +7,23 @@ export default [
         languageOptions: {
             globals: {
                 ...globals.node,
+                ...globals.jest,  
             },
             sourceType: "module",
-            ecmaVersion: 2022, 
+            ecmaVersion: 2022,
         },
         rules: {
             ...js.configs.recommended.rules,
-            
-            
-            "indent": "off",          
-            "no-irregular-whitespace": "off", 
-            "eol-last": "off", 
-            "comma-spacing": "off", 
-            "key-spacing": "off",   
-            
-            // Application Rules 
-            "no-console": "off",          
-            "no-unused-vars": ["error", { "argsIgnorePattern": "next" }], 
-            "semi": ["error", "always"] 
+
+            "indent": "off",
+            "no-irregular-whitespace": "off",
+            "eol-last": "off",
+            "comma-spacing": "off",
+            "key-spacing": "off",
+
+            "no-console": "off",
+            "no-unused-vars": ["warn", { "argsIgnorePattern": "next" }],
+            "semi": ["error", "always"]
         }
     }
 ];
